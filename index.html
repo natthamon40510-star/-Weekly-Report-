@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        window.addEventListener('unhandledrejection', function(event) {
+          var str = String((event && event.reason && (event.reason.message || event.reason)) || '');
+          if (str.indexOf('Pending promise was never set') !== -1 || str.indexOf('auth/popup-closed-by-user') !== -1 || str.indexOf('auth/cancelled-popup-request') !== -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+        window.addEventListener('error', function(event) {
+          var msg = String((event && event.message) || '');
+          if (msg.indexOf('Pending promise was never set') !== -1 || msg.indexOf('auth/popup-closed-by-user') !== -1 || msg.indexOf('auth/cancelled-popup-request') !== -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+      })();
+    </script>
+    <title>Weekly Report Tracker - บันทึกงานประจำสัปดาห์ออนไลน์</title>
+    <meta name="description" content="ระบบบันทึกและติดตามแผนงานประจำสัปดาห์ออนไลน์ สี่พระยาก่อสร้าง สามารถเพิ่มและแก้ไขข้อมูลได้จากทุกเครื่องแบบเรียลไทม์ พร้อมกราฟสรุป KPI และส่งออกรายงาน" />
+    <meta property="og:title" content="Weekly Report Tracker - บันทึกงานประจำสัปดาห์ออนไลน์" />
+    <meta property="og:description" content="ระบบบันทึกและติดตามแผนงานประจำสัปดาห์ออนไลน์ สี่พระยาก่อสร้าง สามารถเพิ่มและแก้ไขข้อมูลได้จากทุกเครื่องแบบเรียลไทม์ พร้อมกราฟสรุป KPI และส่งออกรายงาน" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#eef2fa] text-[#16233f] font-sans antialiased min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner() {
+      return isSignedIn() && request.auth.token.email == 'natthamon40510@gmail.com';
+    }
+
+    function isValidTask(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.week is string && data.week.size() <= 32
+        && data.title is string && data.title.size() <= 500
+        && (!('project' in data) || (data.project is string && data.project.size() <= 200))
+        && (!('group' in data) || (data.group is string && data.group.size() <= 100))
+        && (!('type' in data) || (data.type is string && data.type.size() <= 100))
+        && (!('priority' in data) || (data.priority is string && data.priority.size() <= 50))
+        && data.status in ['เสร็จสิ้น', 'กำลังทำ', 'ติดปัญหา']
+        && (!('plan' in data) || (data.plan is string && data.plan.size() <= 32))
+        && (!('start' in data) || (data.start is string && data.start.size() <= 32))
+        && (!('actual' in data) || (data.actual is string && data.actual.size() <= 32))
+        && (!('days' in data) || (data.days is number))
+        && (!('note' in data) || (data.note is string && data.note.size() <= 1500));
+    }
+
+    function isValidSettings(data) {
+      return (!('name' in data) || (data.name is string && data.name.size() <= 200))
+        && (!('logo' in data) || (data.logo is string && data.logo.size() <= 300000));
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+
+    match /tasks/{taskId} {
+      allow get, list: if true;
+      allow create: if isValidId(taskId) && isValidTask(incoming());
+      allow update: if isValidId(taskId) && isValidTask(incoming());
+      allow delete: if isValidId(taskId);
+    }
+
+    match /meta/settings {
+      allow get: if true;
+      allow write: if true;
+    }
+  }
+}

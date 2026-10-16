@@ -1,0 +1,138 @@
+{
+  "entities": {
+    "Task": {
+      "title": "Task",
+      "description": "Weekly report task item for Siphya Construction procurement tracking with owner-managed privacy",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task identifier"
+        },
+        "week": {
+          "type": "string",
+          "description": "Monday ISO date of the work week (YYYY-MM-DD)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Description of the task being performed",
+          "maxLength": 500
+        },
+        "project": {
+          "type": "string",
+          "description": "Project name or site code",
+          "maxLength": 200
+        },
+        "group": {
+          "type": "string",
+          "description": "Work group category",
+          "maxLength": 100
+        },
+        "type": {
+          "type": "string",
+          "description": "Task type",
+          "maxLength": 100
+        },
+        "priority": {
+          "type": "string",
+          "description": "Priority level",
+          "maxLength": 50
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status",
+          "enum": ["เสร็จสิ้น", "กำลังทำ", "ติดปัญหา"]
+        },
+        "plan": {
+          "type": "string",
+          "description": "Planned completion date"
+        },
+        "start": {
+          "type": "string",
+          "description": "Actual start date"
+        },
+        "actual": {
+          "type": "string",
+          "description": "Actual completion date"
+        },
+        "days": {
+          "type": "number",
+          "description": "Workdays consumed"
+        },
+        "note": {
+          "type": "string",
+          "description": "Latest updates or roadblocks",
+          "maxLength": 1000
+        },
+        "created": {
+          "type": "number",
+          "description": "Creation timestamp in milliseconds"
+        },
+        "ord": {
+          "type": "number",
+          "description": "Ordering sequence key"
+        },
+        "authorUid": {
+          "type": "string",
+          "description": "UID of the task author for private isolation"
+        },
+        "authorEmail": {
+          "type": "string",
+          "description": "Email of the task author"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name of the task author"
+        }
+      },
+      "required": ["id", "week", "title", "status", "authorUid"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Company settings and global access control managed by the web owner",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Default reporter name",
+          "maxLength": 200
+        },
+        "groups": {
+          "type": "string",
+          "description": "JSON array of group options"
+        },
+        "types": {
+          "type": "string",
+          "description": "JSON array of type options"
+        },
+        "priorities": {
+          "type": "string",
+          "description": "JSON array of priority options"
+        },
+        "logo": {
+          "type": "string",
+          "description": "Company logo base64 data URL",
+          "maxLength": 300000
+        },
+        "allowAllView": {
+          "type": "string",
+          "description": "Whether the owner has allowed everyone to view all tasks"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Last updated timestamp"
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "Collection of tasks with strict per-user privacy isolation unless permitted by owner"
+    },
+    "/meta/settings": {
+      "schema": "Settings",
+      "description": "Global settings and permissions managed by the web owner"
+    }
+  }
+}

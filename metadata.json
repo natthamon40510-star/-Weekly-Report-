@@ -1,0 +1,6 @@
+{
+  "name": "Weekly Report Tracker - บันทึกงานประจำสัปดาห์ออนไลน์",
+  "description": "ระบบบันทึกและติดตามแผนงานประจำสัปดาห์ออนไลน์ สี่พระยาก่อสร้าง สามารถเพิ่มและแก้ไขข้อมูลได้จากทุกเครื่องแบบเรียลไทม์ พร้อมกราฟสรุป KPI และส่งออกรายงาน",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
